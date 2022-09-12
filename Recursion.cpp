@@ -44,43 +44,7 @@ int main()
 #include<iostream>
 
 using namespace std;
-/*
-int Fib(int n, int x, int y, int suma) {
-	if (n == 1){
-		x = 0, y = 1;
-		cout << " " << x << " " << y ;
-	}else{
-		suma = x + y;
-		cout << " " << suma;
-		x = y;
-		y = suma;	 	
-		Fib(n-1, x, y, suma);
-	}
-}
-*/
 
-int Fib(int n, int x, int y, int suma, int k) {
-	if (k < n){	
-		if (k == n){
-			suma = x + y;
-			cout << " " <<suma;
-		}else{ 
-			suma = x + y;
-			cout << " " <<suma;
-			x = y;
-			y = suma;	 	
-			Fib(n, x, y, suma, k+1);
-		}
-	}
-}
-
-int Fact(int n) {
-	if (n == 0){
-		return 1;
-	}else{
-		return n*Fact(n-1); 	
-	}
-}
 
 int fib1(int n){
 	int suma = 0;
@@ -96,10 +60,31 @@ int fib1(int n){
 }
 
 
+int Fact(int n) {
+	if (n == 0){
+		return 1;
+	}else{
+		return n*Fact(n-1); 	
+	}
+}
+
+int Fib(int n){
+    if (n == 0){
+        return 0;
+    }
+    if (n == 1){
+        return 1;
+    }
+    else{
+        return Fib(n-1) + Fib(n-2);
+    }
+}
+
 
 int main()
 {   
-	Fib(6, 0, 1, 0,0);    
+	cout << Fib(4) << endl;  
+	cout << Fact(5);
    	return 0;
 }
 
