@@ -458,6 +458,70 @@ public:
         cout<<"La media es: "<<media<<endl;
         cout<<"La mediana es: "<<mediana<<endl;
     }
+
+    int particion(int ini, int fin){
+        int pivote = v[fin];
+        int i = -1;
+        int temp;
+        for (ini; ini <= fin; ini++){
+            if (v[ini] < pivote){
+                i++;
+                temp = v[i];
+                v[i] = v[ini];
+                v[ini] = temp;
+            }
+
+        }
+        i++;
+        if (v[i] > pivote){
+            temp = v[i];
+            v[i] = v[fin];
+            v[fin] = temp;            
+        }
+        return i;
+    }
+/*
+    void quick_sort(int ini, int fin){
+
+        int temp;
+        particion();
+        pivote = v[i-1];
+        i = -1;                             
+        for (int j = 0; j <= size-4; j++){
+            if (v[j] < pivote){
+                i++;
+                temp = v[i];
+                v[i] = v[j];
+                v[j] = temp;
+            }
+        }
+        i++;
+        if (v[i] > pivote){
+            temp = v[i];
+            v[i] = v[size-4];
+            v[size-4] = temp;            
+        }
+        cout << "Segunda: ";
+        print();
+        cout << endl;
+        pivote = v[i-1];
+        i = -1;
+        for (int j = 0; j < size-5; j++){
+            if (v[j] < pivote){
+                i++;
+                temp = v[i];
+                v[i] = v[j];
+                v[j] = temp;
+            }
+            cout << i << " - " << j <<endl;
+        }
+        i++;
+        if (v[i] > pivote){
+            temp = v[i];
+            v[i] = v[size-6];
+            v[size-6] = temp;            
+        }   
+    }*/
 };
 
 int main()
