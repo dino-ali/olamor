@@ -1,6 +1,3 @@
-
-// Online C++ Compiler - Build, Compile and Run your C++ programs online in your favorite browser
-
 #include<iostream>
 #include <stdlib.h>
 #include <time.h>
@@ -461,7 +458,7 @@ public:
 
     int particion(int ini, int fin){
         int pivote = v[fin];
-        int i = -1;
+        int i = ini-1;
         int temp;
         for (ini; ini <= fin; ini++){
             if (v[ini] < pivote){
@@ -480,48 +477,17 @@ public:
         }
         return i;
     }
-/*
-    void quick_sort(int ini, int fin){
 
-        int temp;
-        particion();
-        pivote = v[i-1];
-        i = -1;                             
-        for (int j = 0; j <= size-4; j++){
-            if (v[j] < pivote){
-                i++;
-                temp = v[i];
-                v[i] = v[j];
-                v[j] = temp;
-            }
+    void quick_sort(int ini, int fin){
+        if(ini >= fin){
+            cout << "";
         }
-        i++;
-        if (v[i] > pivote){
-            temp = v[i];
-            v[i] = v[size-4];
-            v[size-4] = temp;            
+        else{
+            int x = particion(ini,fin);
+            quick_sort(ini, x-1);
+            quick_sort(x+1, fin);
         }
-        cout << "Segunda: ";
-        print();
-        cout << endl;
-        pivote = v[i-1];
-        i = -1;
-        for (int j = 0; j < size-5; j++){
-            if (v[j] < pivote){
-                i++;
-                temp = v[i];
-                v[i] = v[j];
-                v[j] = temp;
-            }
-            cout << i << " - " << j <<endl;
-        }
-        i++;
-        if (v[i] > pivote){
-            temp = v[i];
-            v[i] = v[size-6];
-            v[size-6] = temp;            
-        }   
-    }*/
+    }
 };
 
 int main()
@@ -529,7 +495,7 @@ int main()
     srand(time(NULL));
     int n = 10;
     int p = 0;
-    int x = 0;
+    int x = 0, y = 0;
     Vector v = Vector(n);
     for(int i=0; i<n; i++)
     {
@@ -542,12 +508,83 @@ int main()
     cout<<"ORIGINAL \n";
     v.print();
     cout<<"---------------------------------------------------------------------------- \n";
-    v.media_y_mediana();
+    x = v.particion(0, n-1);
+    y = x;
+    v.quick_sort(0, x-1);
+    v.quick_sort(y+1, n-1);
+    v.print();
     
     
     return 0;
 }
 
 
+/*
+    int particion(int ini, int fin){
+        int pivote = v[fin];
+        int i = ini-1;
+        int j = ini;
+        int temp;
+        for (j; j < fin+1; j++){
+            if (v[j] <= pivote){
+                i++;
+                temp = v[j];
+                v[j] = v[i];
+                v[i] = temp;
+            }
+        }
+        return i;
+    }
 
+    void quick_sort(int ini, int fin){
+        if(ini >= fin){
+            cout << "";
+        }
+        else{
+            int i=particion(ini,fin);
+            quick_sort(ini, i-1);
+            quick_sort(i+1, fin);
+        }
+    }
+};
 
+int main()
+{
+    srand(time(NULL));
+    int n = 10;
+    int p = 0;
+    int x = 0, y = 0;
+    Vector v = Vector(n);
+    /*
+    for(int i=0; i<n; i++)
+    {
+        do
+            p = rand() % 15;
+        while(v.checkrep(p, n));
+        v.push_back(p);
+    }
+    */
+    
+    v.push_back(8);
+    v.push_back(3);
+    v.push_back(5);
+    v.push_back(1);
+    v.push_back(4);
+    v.push_back(9);
+    v.push_back(10);
+    v.push_back(2);
+    v.push_back(6);
+    v.push_back(7);
+    cout<<"ORIGINAL \n";
+    v.print();
+    cout<<"---------------------------------------------------------------------------- \n";
+    cout << x << endl;
+    v.quick_sort(0, n-1);
+    v.print();
+
+    
+    
+    return 0;
+}
+
+*/
