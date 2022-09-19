@@ -495,37 +495,38 @@ public:
         *b = temp;
     }
    
-    void heapify(int n, int i) {
-        // Compara las hojas con su nodo superior
-        int largest = i;
-        int left = 2*(i + 1) - 1;
-        int right = 2*(i + 1);
-      
-        if (left < n && v[left] > v[largest]){
-            largest = left;
-        }    
-        if (right < n && v[right] > v[largest]){
-            largest = right;
+    void heapify(int n) {
+        for (int i = n / 2 - 1; i >= 0; i--){
+            // Compara las hojas con su nodo superior
+            int may = i;
+            int iz = 2*(i + 1) - 1;
+            int der = 2*(i + 1);
+          
+            if (iz < n && v[iz] > v[may]){
+                may = iz;
+            }    
+            if (der < n && v[der] > v[may]){
+                may = der;
+            }
+            // Cambia el nodo superior si este no fue el mayor numero
+            if (may != i) {
+                swap(&v[i], &v[may]);
+            }
         }
-        // Cambia el nodo superior si este no fue el mayor numero
-        if (largest != i) {
-            swap(&v[i], &v[largest]);
-            heapify(n, largest);
-        }
+        swap(&v[0], &v[n-1]);
     }
   
     void heapSort(int n) {
-        // Particion
-        for (int i = n / 2 - 1; i >= 0; i--)
-            heapify(n, i);
-      
-        // Heap sort
-        for (int i = n - 1; i >= 0; i--) {
-            swap(&v[0], &v[i]);     
-            heapify(i, 0);
+        if((n-1) <= 0){
+            cout << "";
+        }
+        else{
+            heapify(n);
+            heapSort(n-1);
         }
     }
 };
+
 
 int main()
 {
@@ -547,8 +548,6 @@ int main()
     cout<<"---------------------------------------------------------------------------- \n";
     v.heapSort(n);
     v.print();
-    
-    
     return 0;
 }
 
@@ -623,3 +622,4 @@ int main()
 }
 
 */
+
