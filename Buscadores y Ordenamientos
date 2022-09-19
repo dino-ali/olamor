@@ -498,8 +498,8 @@ public:
     void heapify(int n, int i) {
         // Compara las hojas con su nodo superior
         int largest = i;
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
+        int left = 2*(i + 1) - 1;
+        int right = 2*(i + 1);
       
         if (left < n && v[left] > v[largest]){
             largest = left;
