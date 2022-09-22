@@ -147,3 +147,78 @@ int main()
     
 
 }
+
+
+//----------------------------------------------------------- #5
+
+int interpolacion(vector <int > & arr, int x, int right, int left){
+    int pos;
+    if(right!=left){
+        pos=left+ ((x-arr[left])*(right-left))/(arr[right]-arr[left]);
+        if(x==arr[pos]){
+            return pos;
+        }else if(x<arr[pos]){
+            interpolacion(arr, x, pos-1,left);
+        }else if(x>arr[pos]){
+            interpolacion(arr,x, right, pos+1);
+        }
+    }else{
+        return pos;
+    }
+    return -1;
+}
+
+int main() {
+    //punto5
+    vector<int>v5;
+    v5.push_back(1);
+    v5.push_back(2);
+    v5.push_back(3);
+    v5.push_back(4);
+    v5.push_back(5);
+    v5.push_back(6);
+    cout << "El numero está en la posición: ";
+    cout << interpolacion(v5, 4, 0, 5);
+
+   
+    return 0;
+}
+
+//----------------------------------------------------------- #6
+
+int anti_peak(const vector<int> & vec){
+    for(int i=0; i<vec.size(); i++){
+        if(vec[i]<vec[i-1] && vec[i]<vec[i+1]){
+            return i;
+        }
+        if(i==0){
+            if(vec[i]<vec[i+1]){
+                return i;
+            }
+        }else if(i==vec.size()-1){
+            if(vec[i]<vec[i-1]){
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+int main() {
+    vector<int>v6;
+    v6.push_back(12);
+    v6.push_back(11);
+    v6.push_back(10);
+    v6.push_back(6);
+    v6.push_back(5);
+    v6.push_back(1);
+    cout << "El numero mínimo local es : ";
+    cout << anti_peak(v6);
+   
+    return 0;
+}
+
+
+//----------------------------------------------------------- #7
+
+
