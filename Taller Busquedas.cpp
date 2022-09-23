@@ -151,6 +151,11 @@ int main()
 
 //----------------------------------------------------------- #5
 
+#include <iostream>
+#include <vector>
+#include <time.h>
+using namespace std;
+
 int interpolacion(vector <int > & arr, int x, int right, int left){
     int pos;
     if(right!=left){
@@ -185,6 +190,10 @@ int main() {
 }
 
 //----------------------------------------------------------- #6
+#include <iostream>
+#include <vector>
+#include <time.h>
+using namespace std;
 
 int anti_peak(const vector<int> & vec){
     for(int i=0; i<vec.size(); i++){
@@ -222,3 +231,71 @@ int main() {
 //----------------------------------------------------------- #7
 
 
+#include <iostream>
+#include <vector>
+#include <time.h>
+using namespace std;
+
+char** crear_mat(int n, int m){
+    char** mat = new char*[n];
+    for(int i = 0; i<n; i++){
+        mat[i] = new char[m];
+        for(int j=0; j<m; j++){
+            mat[i][j] = 0;
+        }
+    }
+    return mat;
+}
+
+int search (char **a, char *v, int n, int m){
+    int cnt = 0;
+    for(int i=0; i < n; i++){  
+       for(int j=0; j <= n-m; j++){  
+            if (a[i][j] == v[j] && a[i][j+1] == v[j+1] && a[i][j+2] == v[j+2] && a[i][j+3] == v[j+3]){
+                cnt ++;
+            }
+        }  
+    }  
+    cout << "La cantidad de ocurrencias es: "<<cnt;
+}
+
+
+
+int main() {
+   
+    srand(time(NULL));
+    std::string alphabet = "cgta";
+    int n = 7;
+    int m = 4;
+    char** a = crear_mat(n,n);
+    char b[4];
+    for(int i=0; i<n; i++){  
+       for(int j=0; j<n; j++){  
+            char ch = alphabet[rand() % alphabet.size()];
+            a[i][j] = ch;  
+       }  
+    }  
+   
+    for(int i=0; i<n; i++){  
+       for(int j=0; j<n; j++){  
+            cout << a[i][j] << " ";  
+       }  
+       cout << endl;
+    } 
+    
+    cout<<endl;    
+      
+    for(int i=0; i<m; i++){  
+        char ch = alphabet[rand() % alphabet.size()];
+        b[i] = ch;  
+    } 
+   
+    for(int i=0; i<m; i++){  
+        cout << b[i] << " ";  
+    } 
+       
+    cout << endl;
+    
+    search(a,b,n,m);
+    return 0;
+}
