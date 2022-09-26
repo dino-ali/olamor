@@ -539,6 +539,16 @@ public:
         pop();
         return x;
     }
+    
+    void inCola(int x){
+        push_back(x);
+    }
+    
+    int canCola(){
+        int x = get(0); 
+        remove(0);
+        return x;
+    }    
 };
 
 
@@ -556,12 +566,12 @@ int main()
         do
             p = rand() % 15;
         while(v.checkrep(p, n));
-        v.inPila(p);
+        v.inCola(p);
     }
     v.print();
     cout<<endl;
     for(int i = n-1; i>=0; i--){
-        cout << v.canPila() << " ";        
+        cout << v.canCola() << " ";        
     }
 
     return 0;
