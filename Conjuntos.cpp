@@ -1,6 +1,5 @@
-// stack::top
-#include <iostream>       // std::cout
-#include <stack>          // std::stack
+#include <iostream>       
+#include <stack>        
 #include <vector>
 
 using namespace std;
@@ -76,7 +75,32 @@ public:
         }
     }
     
+
+    bool contains(int j){
+        bool a = false;
+        for (int i = 0; i < size; i++){
+            if (x[i] == j){
+                a = true;
+                return a;
+            }
+        }
+        return a;
+    }
+    
 };
+
+void unioncj(Conjunto a, Conjunto b){
+    vector<int> x;
+    Conjunto c = Conjunto(x);
+    for (int i = 0; i < a.getSize(); i++){
+        c.add(a.getVector()[i]);    
+    }
+    for (int i = 0; i < b.getSize(); i++){
+        c.add(b.getVector()[i]);    
+    }
+    
+    c.print();
+}
 
 void interseccion(Conjunto a, Conjunto b){
     vector<int> x;
@@ -84,14 +108,21 @@ void interseccion(Conjunto a, Conjunto b){
     if (a.getSize() > b.getSize()){
         mayor = a.getSize(); 
         menor = b.getSize();
+        for (int i = 0; i < menor; i++){
+            for (int j = 0; j < mayor; j++){
+                if (a.getVector()[j] == b.getVector()[i]){
+                    x.push_back(a.getVector()[j]);    
+                }
+            }
+        }
     } else{
         mayor = b.getSize();
         menor = a.getSize();
-    }
-    for (int i = 0; i < menor; i++){
-        for (int j = 0; j < mayor; j++){
-            if (a.getVector()[j] == b.getVector()[i]){
-                x.push_back(a.getVector()[j]);    
+        for (int i = 0; i < menor; i++){
+            for (int j = 0; j < mayor; j++){
+                if (a.getVector()[j] == b.getVector()[i]){
+                    x.push_back(a.getVector()[j]);    
+                }
             }
         }
     }
@@ -117,10 +148,9 @@ int main ()
         d.add(i);   
     }
     
-    
     c.print();
     d.print();
-    interseccion(c,d);
+    unioncj(c,d);
     
     
 
