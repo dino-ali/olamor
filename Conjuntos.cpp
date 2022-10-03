@@ -38,12 +38,6 @@ public:
         return size;    
     }
     
-    void corrimiento_der(int i){
-        for(int j = size; j>i; j--){
-            x[j] = x[j-1];
-        }
-    }
-    
     void corrimiento_izq(int i){
         for(int j = i; j<size-1; j++){
             x[j] = x[j+1];
@@ -87,20 +81,38 @@ public:
         return a;
     }
     
-};
-
-void unioncj(Conjunto a, Conjunto b){
-    vector<int> x;
-    Conjunto c = Conjunto(x);
-    for (int i = 0; i < a.getSize(); i++){
-        c.add(a.getVector()[i]);    
-    }
-    for (int i = 0; i < b.getSize(); i++){
-        c.add(b.getVector()[i]);    
+    void unioncj(Conjunto b){
+        for (int i = 0; i < size; i++){
+            add(x[i]);    
+        }
+        for (int i = 0; i < b.getSize(); i++){
+            add(b.getVector()[i]);    
+        }
+        print();
     }
     
-    c.print();
-}
+    void diferencia(Conjunto b){
+        vector<int> y;
+        for (int i = 0; i < size; i++){
+            bool c = true;
+            for (int j = 0; j < b.getSize(); j++){
+                if (x[i] == b.getVector()[j]){
+                    c = false;
+                }
+            }
+            if (c == true){
+                y.push_back(x[i]);    
+            } 
+        }
+        
+        for (int i = 0; i < y.size(); i++){
+            cout << y[i] << " ";
+        }
+    }    
+    
+};
+
+
 
 void interseccion(Conjunto a, Conjunto b){
     vector<int> x;
@@ -132,6 +144,8 @@ void interseccion(Conjunto a, Conjunto b){
     }
 }
 
+
+
 int main ()
 {   
     vector<int> x;
@@ -150,7 +164,7 @@ int main ()
     
     c.print();
     d.print();
-    unioncj(c,d);
+    d.diferencia(c);
     
     
 
