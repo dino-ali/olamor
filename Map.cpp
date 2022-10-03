@@ -5,51 +5,51 @@
 
 using namespace std;
 
-//template<typename T, typename T1>
+template <typename T, typename T2>
 
 class Tupla{
-    int key;
-    char dato;
+    T key;
+    T2 dato;
 
 public:
 
     //Constructores
-    Tupla(int x, char y) {
+    Tupla(T x, T2 y) {
         key = x;
         dato = y;
   
     }
 
-    int getKey() {
+    T getKey() {
         return key;
     }
 
-    char getDato() {
+    T2 getDato() {
         return dato;
     }
     
     void get_tp(){
-        tuple<int, char> t;
+        tuple<T, T2> t;
         t = make_tuple(key, dato);
         cout << "(" << get<0>(t) << ", " << get<1>(t) << ")";
     }
 };
 
-
+template <typename T, typename T2>
 class Mapas{
-    vector<Tupla> x;
+    vector<Tupla<T, T2>> x;
     int size;
 
 public:
 
     //Constructores
-    Mapas(vector<Tupla> z){
+    Mapas(vector<Tupla<T,T2>> z){
         x = z;
         size = x.size();
     }
     
-    void add(int z, char p){
-        Tupla t = Tupla(z, p);
+    void add(T z, T2 p){
+        Tupla<T,T2> t = Tupla<T,T2>(z, p);
         x.push_back(t);
         size++;
     }
@@ -62,7 +62,7 @@ public:
         cout << endl;
     }
 
-    Tupla find(int k){
+    Tupla<T,T2> find(T k){
         for (int i = 0; i < size; i++){
             if (x[i].getKey() == k){
                 return x[i]; 
@@ -71,12 +71,12 @@ public:
         return x[0];
     }
     
-    char get(int k){
+    char get(T k){
         char x = find(k).getDato();
         return x;
     }
     
-    bool haskey(int k){
+    bool haskey(T k){
         for (int i = 0; i < size; i++){
             if (x[i].getKey() == k){
                 return true; 
@@ -105,7 +105,6 @@ Tupla busqueda_binaria(vector<Tupla> & arr, int n, int x){
         }    
     }
 }
-
 void bubble_sort (vector<Tupla> & arr){
     int a;
     for(int i =0; i<size; i++){
@@ -129,16 +128,15 @@ void bubble_sort (vector<Tupla> & arr){
 
 int main ()
 {   
-    vector<Tupla> x;
-    Mapas m = Mapas(x);
+    vector<Tupla<int,char>> x;
+    Mapas<int,char> m = Mapas<int,char>(x);
     
     m.add(7,'k');
     m.add(2,'a');
     m.add(5,'b');
+    m.print();
     cout << m.get(7) << endl;;
     cout << m.haskey(4);
 
     return 0;
 }
-
-
