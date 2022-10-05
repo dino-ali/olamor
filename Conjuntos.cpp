@@ -110,41 +110,24 @@ public:
         }
     }    
     
-};
 
-
-
-void interseccion(Conjunto a, Conjunto b){
-    vector<int> x;
-    int mayor = 0, menor = 0;
-    if (a.getSize() > b.getSize()){
-        mayor = a.getSize(); 
-        menor = b.getSize();
-        for (int i = 0; i < menor; i++){
-            for (int j = 0; j < mayor; j++){
-                if (a.getVector()[j] == b.getVector()[i]){
-                    x.push_back(a.getVector()[j]);    
+    void interseccion(Conjunto b){
+        vector<int> y;
+        for (int i = 0; i < b.getSize(); i++){
+            for (int j = 0; j < size; j++){
+                if (x[j] == b.getVector()[i]){
+                    y.push_back(x[j]);    
                 }
             }
         }
-    } else{
-        mayor = b.getSize();
-        menor = a.getSize();
-        for (int i = 0; i < menor; i++){
-            for (int j = 0; j < mayor; j++){
-                if (a.getVector()[j] == b.getVector()[i]){
-                    x.push_back(a.getVector()[j]);    
-                }
-            }
+    
+        for (int i = 0; i < y.size(); i++){
+            cout << y[i] << " ";
         }
     }
     
-    for (int i = 0; i < x.size(); i++){
-        cout << x[i] << " ";
-    }
-}
-
-
+    
+};
 
 int main ()
 {   
@@ -164,7 +147,7 @@ int main ()
     
     c.print();
     d.print();
-    d.diferencia(c);
+    d.interseccion(c);
     
     
 
