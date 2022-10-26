@@ -6,23 +6,17 @@ using namespace std;
 
 class Node{
   int data;
-  Node* izq;
-  Node* der;
   vector<Node*> hij;
   
 public:
 
   Node(){
       data=0;
-      izq = NULL;
-      der =  NULL;
       hij = {};
   }
 
   Node(int d){
       data=d;
-      izq = NULL;
-      der =  NULL;
       hij = {};
   }
   
@@ -30,24 +24,8 @@ public:
       return data;
   }
   
-  Node* getIzq(){
-      return izq;
-  }
-  
-  Node* getDer(){
-      return der;
-  }
-  
   vector<Node*> getHij(){
       return hij;
-  }
-  
-  void setIzq(Node* iz){
-      izq =  iz;
-  }
-  
-  void setDer(Node* de){
-      der =  de;
   }
   
   void setHij(Node* h){
@@ -80,36 +58,40 @@ public:
           bool found = false;
           while(!found){
               if(t->getData() < n->getData()){
+                /*
                 if(t->isHoja()){
-                    t =  t->getDer();
+                    t =  t->getHij();
                 }else{
-                    t->setDer(n);
-                    found=true;
-                }   
+                */
+                t->setHij(n);
+                found=true;
+                //}
+                
               }else{
+                /*
                 if(t->isHoja()){
-                    t =  t->getIzq();
+                    t =  t->getHij();
                 }else{
-                    t->setIzq(n);
-                    found=true;
-                } 
+                */
+                t->setHij(n);
+                found=true;
+                //} 
               }
           }
       }
   }
-
+/*
   void preorder(){
       preorder(root);
   }
 
-  void preorder(Node* r){
+  void preorder(vector<Node*> r){
       if(r != NULL){
           cout<<r->getData()<<"\t";
-          preorder(r->getIzq());
-          preorder(r->getDer());
+          preorder(r->getHij());
       }
   }
-    
+
   void addr(int d){
       if(root != NULL)
         addr(d, root, root);
@@ -121,19 +103,19 @@ public:
         if(t == NULL){
             Node* n = new Node(d);
             if(d < pt->getData()){
-                pt->setIzq(n);
+                pt->setHij(n);
             }else{
-                pt->setDer(n);
+                pt->setHij(n);
             }
         }else{
             if(d < t->getData()){
-                addr(d, t->getIzq(), t);
+                addr(d, t->getHij(), t);
             }else{
-                addr(d, t->getDer(), t);
+                addr(d, t->getHij(), t);
             }
         }
     }
-
+  */  
     
     
 };
