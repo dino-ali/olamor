@@ -2,11 +2,8 @@
 1. Implementar el juego del 2048/pero hasta 128 con una sola estructura (Pilas)
  
 2. Dado un arbol binario, determinar si dos numeros a y b son nodos primos, si existe
-
 */
 
-
- //------------------------------------------------- CON LISTAS --------------------------------------------------
 
 #include<iostream>
 #include<string>
@@ -112,7 +109,7 @@ public:
     
     void print(){
         if(size == 0){
-            cout<<"La lista estÃ¡ vacia"<<endl;
+            cout<<"La lista esta vacia"<<endl;
         }else{
             Nodo* t = ptr;
             do{
@@ -135,7 +132,7 @@ public:
         }else{
             //throw invalid_argument("La posicion no existe");
             if(size == 0){
-                cout<<"La lista estÃ¡ vacia";
+                cout<<"La lista esta vacia";
             }else{
                 cout<<"La posicion no existe";
             }
@@ -146,8 +143,8 @@ public:
     
     void insert(int p, int pos){
         if(pos >= 0 && pos <= size){
-            //Si la lista estÃ¡ vacia o si se quiere insertar el nodo al final
-            //se usa el mÃ©todo push_back
+            //Si la lista estÃƒÂ¡ vacia o si se quiere insertar el nodo al final
+            //se usa el mÃƒÂ©todo push_back
             if(size == 0 || pos == size){ 
                 push_back(p);
             }else{
@@ -170,7 +167,12 @@ public:
     }
     
     void remove(int pos){
-        if(pos >= 0 && pos < size){
+        if (pos == 0 and size == 1){
+            Nodo* n = get(pos);
+            ptr = NULL;
+            delete n;                
+            size--;           
+        }else if(pos >= 0 && pos < size){
             if(pos == size-1){ 
                 Nodo* n = get(pos);
                 Nodo* t = get(pos-1);
@@ -195,23 +197,6 @@ public:
             throw invalid_argument("La posicion no existe");
         }       
     }
-    
-    void invertir_lista(){
-        if(size == 0){
-            cout<<"La lista estÃ¡ vaciaa"<<endl;
-        }else{
-            Nodo* nNext;
-            Nodo* ptr2 = NULL;
-            Nodo* d = ptr;
-            while(d != NULL){
-                nNext = d -> getNext();
-                d -> setNext(ptr2);
-                ptr2 = d;
-                d = nNext;
-            }
-            ptr = ptr2;
-        }
-    } 
     
     void pop(){
         remove(size-1);
@@ -240,35 +225,44 @@ public:
     }
 };
     
-
+void prn(Lista l){
+    int x,y,d;
+    d = 0;
+    while (d < 128){
+        cin>> x;
+        y = l.getSize();
+        d = l.get(y-1)->getDato();
+        while(x == d){
+            l.canPila();
+            x = x + x;
+            y = l.getSize();
+            if ((y-1) >= 0){
+                d = l.get(y-1)->getDato();            
+            }
+        }
+        l.push_back(x);
+        l.print();
+        y = l.getSize();
+        d = l.get(y-1)->getDato();
+    }
+    l.canPila();
+    if (l.getSize() == 0){
+        cout << "Acabo el juego";
+    }else{
+        prn(l);
+    }
+}
 
 
 int main()
 {
    
-    Lista l = Lista();
-    int x,y,d, a, b;
-    a = l.getSize();
-    l.push_back(32);
-    b = l.get(a)->getDato();
-    while (b < 128){
-        cin>> x;
-        y = l.getSize();
-        d = l.get(y-1)->getDato();
-        l.print();
-        while (x == d){
-            l.canPila();
-        y = l.getSize();
-        d = l.get(y-1)->getDato();
-            x = x + x;
-        }
-        l.push_back(x);
-        b = l.get(y-1)->getDato();
-    }
+    Lista l = Lista(); 
+    int x;
+    cin>> x;
+    l.push_back(x);
     l.print();
+    prn(l);
     
     return 0;
 }
- 
- 
-
