@@ -420,7 +420,6 @@ public:
     
 };
 
-/*
 int Hash(string clave){
     string a = clave;
     string e = "";
@@ -438,8 +437,8 @@ int Hash(string clave){
     f = stoi(e);    
     return f;
 }
-*/
 
+/*
 int Hash(string clave){
     string a = clave;
     string e = "";
@@ -465,7 +464,7 @@ int Hash(string clave){
     f = stoi(e);    
     return f;
 }
-
+*/
 int main()
 {
     srand (time(nullptr));
@@ -494,4 +493,3 @@ int main()
     
     return 0;
 }
-
