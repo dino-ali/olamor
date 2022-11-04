@@ -1,5 +1,5 @@
 
-// Online C++ Compiler - Build, Compile and Run your C++ programs online in your favorite browser
+/// Online C++ Compiler - Build, Compile and Run your C++ programs online in your favorite browser
 
 #include<iostream>
 #include <cmath>
@@ -101,6 +101,7 @@ public:
       Node* n = new Node(d);
       if(root == NULL){
           root = n;
+          n->setPad(root);
       }else{
           Node* t = root;
           bool found = false;
@@ -109,6 +110,7 @@ public:
                 if(t->hasDer()){
                     t =  t->getDer();
                 }else{
+                    t->setPad(t);
                     t->setDer(n);
                     found=true;
                 }   
@@ -116,6 +118,7 @@ public:
                 if(t->hasIzq()){
                     t =  t->getIzq();
                 }else{
+                    t->setPad(t);
                     t->setIzq(n);
                     found=true;
                 } 
@@ -183,6 +186,19 @@ public:
         return false;
     }
     
+    bool isIzqHeavy(Node* t){
+        if (getHeight(t->getIzq()) > getHeight(t->getDer())){
+            return true;
+        }
+        return false;
+    }
+    
+    int parent(Node* t){
+        Node* j = t->getPad();
+        return j->getData();
+    }
+    
+    
 };
 
 int main()
@@ -201,6 +217,6 @@ int main()
     int df = t.getHeight(t.getRt()->getIzq()) - t.getHeight(t.getRt()->getDer());
     cout << endl << df << endl;
     cout << t.isBalance(t.getRt());
-    
+    cout << endl << t.parent(t.getRt()->getIzq());
     return 0;
 }
