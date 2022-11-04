@@ -1,4 +1,3 @@
-
 /// Online C++ Compiler - Build, Compile and Run your C++ programs online in your favorite browser
 
 #include<iostream>
@@ -193,12 +192,102 @@ public:
         return false;
     }
     
-    int parent(Node* t){
-        Node* j = t->getPad();
-        return j->getData();
+    Node* getParent(int d, Node* t){
+        if(t == NULL){
+            return NULL;
+        }else{
+            if(t->getData() == d){
+                return NULL;
+            }else{
+                if (t->getData() > d){
+                    if (t->hasIzq()){
+                        if (t->getIzq()->getData() == d){
+                            return t;
+                        }
+                        else{
+                            return getParent(d, t->getIzq());
+                        }
+                    }else{  
+                        return NULL;
+                    }
+                }else{
+                    if (t->hasDer()){
+                        if (t->getDer()->getData() == d){
+                            return t;
+                        }
+                        else{
+                            return getParent(d, t->getDer());
+                        }
+                    }else{  
+                        return NULL;
+                    } 
+                }
+            }
+        }
+
     }
     
+    bool isHijIzq(int d){
+        Node* h = root;
+        if (h == NULL){
+            return false;
+        }else{
+            if(h->getData() == d){
+                return false;
+            }else{
+                if (h->getData() < d){
+                    return false;
+                }else{
+                    while(h->getData() > d){
+                        if(h->hasIzq()){
+                            if(h->getIzq()->getData() == d){
+                                return true;
+                            }else{
+                                h = h->getIzq();
+                            }
+                        }else{
+                            break;
+                        }
+                    }
+                }    
+            }
+        }
+    }
     
+    void addrAVL(int d, Node* t, Node* pt){
+        
+        if (t == NULL){
+            Node* n = new Node(d);
+            if(d < pt->getData()){
+                pt->setIzq(n);
+            }else{
+                pt->setDer(n);
+            }
+        }else{
+            if(d < t->getData()){
+                addrAVL(d, t->getIzq(), t);
+            }else{
+                addrAVL(d, t->getDer(), t);
+            }
+            
+            
+            if(!isBalance(t)){
+                if(isIzqHeavy(t)){
+                    if(isHijIzq(d)){
+                        Node* z = t->getIzq();
+                        pt = getParent(d, t);
+                        t->setIzq(z->getDer());
+                        z->setDer(t);
+                        if (pt == NULL){
+                            root = z;
+                        }else{
+                            pt -> setIzq(z);
+                        }
+                    }
+                }
+            }
+        }
+    }
 };
 
 int main()
@@ -216,7 +305,7 @@ int main()
     
     int df = t.getHeight(t.getRt()->getIzq()) - t.getHeight(t.getRt()->getDer());
     cout << endl << df << endl;
-    cout << t.isBalance(t.getRt());
-    cout << endl << t.parent(t.getRt()->getIzq());
-    return 0;
+    cout << t.isBalance(t.getRt()); 
+    cout << endl << t.isHijIzq(12);
 }
+
