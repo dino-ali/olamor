@@ -47,20 +47,12 @@ public:
       return der;
   }
   
-  Node * getPad(){
-      return pad;
-  }
-  
   void setIzq(Node* iz){
       izq =  iz;
   }
   
   void setDer(Node* de){
       der =  de;
-  }
-  
-  void setPad(Node* pa){
-      pad = pa;
   }
   
   bool hasIzq(){
@@ -71,9 +63,6 @@ public:
       return der!=NULL;
   }
   
-  bool hasPad(){
-      return pad!=NULL;
-  }
   
   bool isHoja(){
       if(izq == NULL && der == NULL)
@@ -100,7 +89,6 @@ public:
       Node* n = new Node(d);
       if(root == NULL){
           root = n;
-          n->setPad(root);
       }else{
           Node* t = root;
           bool found = false;
@@ -109,7 +97,6 @@ public:
                 if(t->hasDer()){
                     t =  t->getDer();
                 }else{
-                    t->setPad(t);
                     t->setDer(n);
                     found=true;
                 }   
@@ -117,7 +104,6 @@ public:
                 if(t->hasIzq()){
                     t =  t->getIzq();
                 }else{
-                    t->setPad(t);
                     t->setIzq(n);
                     found=true;
                 } 
@@ -294,18 +280,19 @@ int main()
 {
     
     Tree t;
-    t.addr(18);
-    t.addr(12);
-    t.addr(11);
-    t.addr(10);
-    t.addr(24);
+    t.addrAVL(20,t.getRt(), t.getRt());
+    t.addrAVL(15,t.getRt(), t.getRt());
+    t.addrAVL(10,t.getRt(), t.getRt());
+    t.addrAVL(7,t.getRt(), t.getRt());
+    t.addrAVL(5,t.getRt(), t.getRt());
+    t.addrAVL(11,t.getRt(), t.getRt());
+    t.addrAVL(18,t.getRt(), t.getRt());
+    t.addrAVL(24,t.getRt(), t.getRt());
+    t.addrAVL(22,t.getRt(), t.getRt());
+    t.addrAVL(31,t.getRt(), t.getRt());
+    
     
     t.preorder();
-    
-    
-    int df = t.getHeight(t.getRt()->getIzq()) - t.getHeight(t.getRt()->getDer());
-    cout << endl << df << endl;
-    cout << t.isBalance(t.getRt()); 
-    cout << endl << t.isHijIzq(12);
 }
+
 
