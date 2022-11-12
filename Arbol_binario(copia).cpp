@@ -1,6 +1,5 @@
 #include<iostream>
 #include<cmath>
-#define SPACE 10
 using namespace std;
 
 int max(int a, int b){
@@ -54,7 +53,10 @@ public:
     }
     
     bool isHoja(){
-        return izq == NULL && der == NULL;
+        if(izq == NULL && der == NULL)
+            return true;
+        
+        return false;
     }
     
     bool hasIzq(){
@@ -135,18 +137,19 @@ public:
     }
     
     bool isHijo_Izq(int d){
-        Nodo* p = es_padre(d);  
+        Nodo* p = getParent(d, root);  
         if(p != NULL){  
             if(p->getIzq() == NULL){  
                 return false;
             }else{
                 return p->getIzq()->getDato() == d;  
             }
+        }else{
+            return false;
         }
-        return false;
     }
 
-    bool isBalanced(Nodo* t){
+    bool isBalance(Nodo* t){
         int df = 0;
         if (t->hasDer() and t->hasIzq()){
             df = getHeight(t->getIzq()) - getHeight(t->getDer());
@@ -158,71 +161,79 @@ public:
         return false;
     }
     
-    void t_izqOder(bool p, Nodo* pt, Nodo* z){  //Saber si el nodo que va a ser el nuevo hijo de pt va a la izquierda o derecha.
+    void t_izqOder(bool p, Nodo* pt, Nodo* z){ 
         if(p){
             pt->setIzq(z);
         }else{
             pt->setDer(z);
         }
     }
-    
-    Nodo* es_padre(int x, Nodo* t){
-        if(t != NULL){  //Si el nodo existe
-            if(t->getDato() == x){  //Si el nodo es la raíz, no tiene padre
+
+    Nodo* getParent(int d, Nodo* t){
+        if(t == NULL){
+            return NULL;
+        }else{
+            if(t->getDato() == d){
                 return NULL;
-            }
-            if(x<t->getDato()){  //Si el dato es menor al nodo, buscamos a la izquierda
-                if(t->hasIzq()){  //Revisamos que exista el nodo izquierdo
-                    if(t->getIzq()->getDato() == x){  //Si el nodo izquierdo es el dato, retornamos el nodo t 
-                        return t;
-                    }else{  //Si no, buscamos en el nodo izquierdo
-                        Nodo* ni = t->getIzq();
-                        return es_padre(x, ni);
+            }else{
+                if (t->getDato() > d){
+                    if (t->hasIzq()){
+                        if (t->getIzq()->getDato() == d){
+                            return t;
+                        }
+                        else{
+                            return getParent(d, t->getIzq());
+                        }
+                    }else{  
+                        return NULL;
                     }
-                }
-            }else{  //Si el dato es mayor al nodo, buscamos a la derecha
-                if(t->hasDer()){  //Revisamos que exista el nodo derecho
-                    if(t->getDer()->getDato() == x){  //Si el nodo derecho es el dato, retornamos el nodo t
-                        return t;
-                    }else{  //Si no, buscamos en el nodo derecho
-                        Nodo* nd = t->getDer();
-                        return es_padre(x, nd);
-                    }
+                }else{
+                    if (t->hasDer()){
+                        if (t->getDer()->getDato() == d){
+                            return t;
+                        }
+                        else{
+                            return getParent(d, t->getDer());
+                        }
+                    }else{  
+                        return NULL;
+                    } 
                 }
             }
         }
-        return NULL;
+
     }
     
-    Nodo* es_padre(int x){
-        return es_padre(x, root);
+    void addrAVL(int d){
+        if(root == NULL){  
+            root =  new Nodo(d);
+        }else{
+            addrAVL(d, root, root);   
+        }
     }
     
-    void addAVL(int d, Nodo* t, Nodo* pt){
-        if(t == NULL){  //Caso base: Si el hijo de pt no existe, se coloca el dato nuevo dependiendo de si es mayor o menor que pt
+    void addrAVL(int d, Nodo* t, Nodo* pt){
+        
+        if(t == NULL){ 
             Nodo* n = new Nodo(d);
             if(d < pt->getDato()){
                 pt->setIzq(n);
             }else{
                 pt->setDer(n);
             }
-        }else{  //Si no, se evalua si revisamos al lado izquierdo o derecho de t 
+        }else{  
             if(d < t->getDato()){
-                addAVL(d, t->getIzq(), t);
+                addrAVL(d, t->getIzq(), t);
             }else{
-                addAVL(d, t->getDer(), t);
+                addrAVL(d, t->getDer(), t);
             }
-            
-            //Balanceo
-            if(!isBalanced(t)){
-                
-                bool p = isHijo_Izq(t->getDato());  //Revisamos si t es hijo izquierdo o derecho
-                pt = es_padre(t->getDato());  //Obtenemos el padre de t
-                
-                if(isIzq_Heavy(t)){  //Si el lado izquierdo es el desbalanceado
+    
+            if(!isBalance(t)){
+                bool p = isHijo_Izq(t->getDato());  
+                pt = getParent(t->getDato(), root);  
+                if(isIzq_Heavy(t)){  
                     Nodo* z = t->getIzq();
                     if(isHijo_Izq(d)){
-                        //Rotación todo izquierda
                         t->setIzq(z->getDer());
                         z->setDer(t);
                         if(pt == NULL){
@@ -230,7 +241,6 @@ public:
                         }else{
                             t_izqOder(p, pt, z);
                         }
-                    //Rotación desbalance en la izquierda pero dato insertado en la derecha
                     }else{
                         Nodo* ZD = z->getDer();
                         z->setDer(ZD->getIzq());
@@ -239,10 +249,9 @@ public:
                         ZD->setDer(t);
                         t_izqOder(p, pt, ZD);
                     }
-                }else{  //Si el lado derecho está desbalanceado
+                }else{ 
                     Nodo* z = t->getDer();
                     if(!isHijo_Izq(d)){
-                        //Rotación todo derecha
                         t->setDer(z->getIzq());
                         z->setIzq(t);
                         if(pt == NULL){
@@ -250,7 +259,6 @@ public:
                         }else{
                             t_izqOder(p, pt, z);
                         }
-                    //Rotación desbalance en la derecha pero dato insertado en la izquierda
                     }else{
                         Nodo* ZI = z->getIzq();
                         z->setIzq(ZI->getDer());
@@ -264,28 +272,26 @@ public:
         }
     }
     
-    void addAVL(int d){
-        if(root == NULL){  //Caso base: El dato agregado es la raiz
-            root =  new Nodo(d);
-        }else{
-            addAVL(d, root, root);  //Si no, se hace recursividad desde la raiz   
-        }
-    }
+
     
 };
 
 int main(){
+    
     Tree t = Tree();
-    t.addAVL(2);
-    t.addAVL(3);
-    t.addAVL(5);
-    t.addAVL(7);
-    t.addAVL(9);
-    t.addAVL(11);
-    t.addAVL(13);
-    t.addAVL(17);
-    t.addAVL(19);
-    t.addAVL(21);
+
+    t.addrAVL(2);
+    t.addrAVL(1);
+    t.addrAVL(5);
+    t.addrAVL(7);
+    t.addrAVL(9);
+    t.addrAVL(11);
+    t.addrAVL(13);
+    t.addrAVL(17);
+    t.addrAVL(19);
+    t.addrAVL(16);
+    
     t.preorder();
+    
     return 0;
 }
