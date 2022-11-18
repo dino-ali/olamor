@@ -558,3 +558,164 @@ int main()
     cout << endl << g.is_bidireccional();
     return 0;
 }
+
+
+//*********************************************** Punto 2.b *************************************************
+
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
+
+class Grafo{
+    int **matriz;
+    int nodos;
+   
+public:
+    Grafo(int Nodos_){
+        nodos = Nodos_;
+        matriz = new int*[nodos];          
+        for(int i = 0; i < nodos; i++){
+            matriz[i] = new int[nodos];
+        }
+           
+        for(int i = 0;i < nodos;i++){
+            for(int j = 0;j < nodos;j++){
+                matriz[i][j] = 0;
+            }
+        }
+    }
+       
+    int getPeso(int n1, int n2){
+        return matriz[n1][n2];
+    }
+    
+    int** getMt(){
+        return matriz;
+    }
+   
+    void addEnlace(int i, int f, int p){
+        matriz[i-1][f-1] = p;
+    }
+   
+    void addNodo(){
+        int **n_matriz;
+        int old_nodos = nodos;
+        nodos +=1;
+        n_matriz = new int*[nodos];          
+            for(int i = 0; i < nodos; i++){
+                n_matriz[i] = new int[nodos];
+            }
+           
+        for(int i = 0;i < nodos;i++){
+            for(int j = 0;j < nodos;j++){
+                if(i >= old_nodos || j >= old_nodos){
+                    *(*(n_matriz+i)+j) = 0;
+                }else{
+                *(*(n_matriz+i)+j) = *(*(matriz+i)+j);
+                }
+            }
+        }
+       
+        for(int i = 0;i < old_nodos;i++){  
+            delete[] matriz[i];
+        }
+       
+        matriz = n_matriz;
+    }
+   
+    bool es_bidireccional(){
+        for(int i = 0;i < nodos;i++){
+            for(int j = 0;j < nodos;j++){
+                if(matriz[i][j] != matriz[j][i]){
+                    return false;
+                }
+            }
+        }    
+        return true;
+    }
+   
+    int get_min(vector<int> &arr){
+        int min = arr[0];
+        for(int i = 1; i<arr.size(); i++){
+            if(arr[i]<min)
+                min = arr[i];
+        }
+        return min;
+    }
+    bool found(int a, vector<int> arr){
+        for(int i = 0; i <arr.size(); i++){
+            if(arr[i] == a)
+                return true;
+        }
+        return false;
+    }
+   
+    int saltos(int a, int b, vector<int> rev){
+        vector<int> conexiones;
+        if(a == b)
+            return 0;
+        else{
+            rev.push_back(a);
+            for(int i = 0; i < nodos; i++){
+                if(matriz[a-1][i]!=0 && !found(i+1, rev)){
+                    conexiones.push_back(saltos(i+1, b, rev));
+                }
+            }
+        }
+        if(conexiones.size() == 0)
+            return 235233256;
+        else
+            return get_min(conexiones)+1;
+    }
+   
+    void print(int p){
+        int i = 1; 
+        cout << "\t";
+        while(i <= p){
+            cout << i << "\t";
+            i++;
+        }
+        i = 1;
+        cout << endl << endl << i << "\t";
+        for(int i = 0; i<p; i++){
+            for(int j = 0; j<p; j++){
+                cout<<matriz[i][j]<<"\t";
+            }
+            if (i+2 <= p){
+                cout<<"\n" << i+2 <<"\t";
+            }
+        }
+        cout << endl;
+    } 
+};
+
+bool saltosk(Grafo g,int a, int b, int k){
+    vector<int> v;
+    if (g.saltos(a, b, v) <= k){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+int main(){
+    Grafo g = Grafo(6);
+    vector<int> v;
+    g.addEnlace(1, 2, 3);
+    g.addEnlace(1, 3, 2);
+    g.addEnlace(1, 5, 3);
+    g.addEnlace(3, 4, 2);
+    g.addEnlace(4, 6, 2);
+    g.addEnlace(5, 6, 5);
+    g.addEnlace(2, 6, 5);
+    g.addEnlace(6, 2, 5);    
+    g.addEnlace(2, 4, 5);
+    g.addEnlace(4, 2, 5);
+   
+    g.print(6);
+    cout<<endl<<"el num de saltos es: "<<g.saltos(5, 4, v)<<endl;
+    cout<<endl<<saltosk(g, 5, 4, 2);
+    return 0;
+}
+
